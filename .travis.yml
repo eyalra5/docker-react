@@ -1,0 +1,23 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t stephengrider/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true stephengrider/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk # we ask for that kind of provider 
+  region: 'us-east-2' # AWS allocate us ..
+  app: 'docker-react-test' # we set on init 
+  env: 'Dockerreacttest-env' # tabs flow: Elastic Beanstalk -> Environments ->NAME
+  bucket_name: 'elasticbeanstalk-us-east-2-941160354184' # AWS create storage on S3 by deafult. should look for the same as region area name
+  bucket_path: 'docker-react-test' # deafult name: as the app name
+  on:
+    branch: master # we look for that so only prod would be sync. and not feature branches
+  access_key_id: $AWS_ACCESS_KEY # IAM on AWS creates that. I did it as on the video. 
+  secret_access_key: $AWS_SECRET_KEY
