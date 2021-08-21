@@ -5,7 +5,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t react_app/latest -f Dockerfile.dev .
+  - docker build -t react_app/latest -f Dockerfile .
 
 script:
   - docker run -e CI=false react_app/latest npm run test
