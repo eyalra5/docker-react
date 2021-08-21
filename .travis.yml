@@ -8,7 +8,7 @@ before_install:
   - docker build -t react_app/latest -f Dockerfile .
 
 script:
-  - docker run -e CI=false react_app/latest npm run test
+  - docker run -e CI=true react_app/latest npm run test
 
 deploy:
   provider: elasticbeanstalk # we ask for that kind of provider 
